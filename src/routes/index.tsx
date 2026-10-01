@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   Search, ChevronLeft, ChevronRight, GraduationCap, Code2, Database, Cpu,
-  ClipboardList, Network, Layers, Github, Instagram, Mail, CheckCircle2, Clock, Menu, X,
+  ClipboardList, Network, Layers, Github, Instagram, Mail, CheckCircle2, Clock, Menu, X, Sparkles,
 } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import b1 from "@/assets/block1.jpg";
@@ -151,61 +151,103 @@ function Carousel({ children }: { children: ReactNode }) {
 }
 
 const alunos = [
-  ["Lucas Andrade", "Frontend Enthusiast", "men/32"], ["Beatriz Lima", "Backend Warrior", "women/44"],
-  ["Gabriel Siqueira", "QA & Café", "men/46"], ["Matheus Rocha", "DevOps Padawan", "men/75"],
-  ["Larissa Fernandes", "UX Detective", "women/68"], ["Rafael Costa", "Debugger Oficial", "men/22"],
-  ["Juliana Martins", "Scrum Master Nata", "women/26"], ["Pedro Almeida", "Full Stack em Construção", "men/51"],
-  ["Camila Souza", "Data Explorer", "women/12"], ["Thiago Nunes", "Git Merge Survivor", "men/8"],
+  ["Lucas Andrade", "Frontend Enthusiast", "https://i.pravatar.cc/160?img=11"],
+  ["Beatriz Lima", "Backend Warrior", "https://i.pravatar.cc/160?img=47"],
+  ["Gabriel Siqueira", "QA & Café", "https://i.pravatar.cc/160?img=12"],
+  ["Matheus Rocha", "Cloud Explorer", "https://i.pravatar.cc/160?img=14"],
+  ["Larissa Fernandes", "UX & Research", "https://i.pravatar.cc/160?img=44"],
+  ["Rafael Martins", "Database Tamer", "https://i.pravatar.cc/160?img=59"],
+  ["Júlia Castro", "Product Mindset", "https://i.pravatar.cc/160?img=32"],
+  ["Henrique Alves", "DevOps Rookie", "https://i.pravatar.cc/160?img=68"],
 ];
 
 function Alunos() {
+  const [studentIndex, setStudentIndex] = useState(0);
+  const visibleStudents = alunos.slice(studentIndex, studentIndex + 4);
+  const nextStudents = () => setStudentIndex((index) => index >= alunos.length - 4 ? 0 : index + 1);
+  const previousStudents = () => setStudentIndex((index) => index <= 0 ? alunos.length - 4 : index - 1);
+
   return (
-    <section id="turma" className="bg-card py-24">
-      <div className="mx-auto max-w-6xl px-6">
-        <SectionTitle eyebrow="Turma" title="Nossos Alunos" />
-        <Carousel>
-          {alunos.map(([n, r, p]) => (
-            <div key={n} className="w-60 shrink-0 snap-start rounded-2xl border border-border bg-background p-6 text-center shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
-              <img src={`https://randomuser.me/api/portraits/${p}.jpg`} alt={n} loading="lazy" width={96} height={96} className="mx-auto h-24 w-24 rounded-full border-2 border-primary object-cover p-0.5" />
-              <h3 className="mt-4 text-lg font-bold text-navy">{n}</h3>
-              <span className="mt-2 inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-xs font-semibold text-accent">{r}</span>
-            </div>
+    <section id="turma" className="overflow-hidden bg-card px-6 py-24">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div>
+            <p className="flex items-center gap-2 font-display text-sm font-extrabold uppercase tracking-[.18em] text-accent">
+              <span className="inline-block h-0.5 w-8 bg-accent" />
+              A turma
+            </p>
+            <h2 className="mt-5 font-display text-4xl font-extrabold leading-[.98] tracking-tight text-navy sm:text-5xl">
+              Quem está no<br /><span className="text-accent">terminal?</span>
+            </h2>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={previousStudents} aria-label="Alunos anteriores" className="grid h-11 w-11 place-items-center rounded-full border border-border text-navy transition hover:border-primary hover:text-primary">
+              <ChevronLeft className="h-[18px] w-[18px]" />
+            </button>
+            <button onClick={nextStudents} aria-label="Próximos alunos" className="grid h-11 w-11 place-items-center rounded-full bg-primary text-primary-foreground transition hover:bg-navy">
+              <ChevronRight className="h-[18px] w-[18px]" />
+            </button>
+          </div>
+        </div>
+        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {visibleStudents.map(([name, role, image]) => (
+            <article key={name} className="group rounded-3xl border border-border/80 bg-background p-5 transition duration-300 hover:-translate-y-2 hover:border-primary/30 hover:shadow-xl">
+              <div className="relative mb-5 overflow-hidden rounded-2xl">
+                <img src={image} alt={`Foto de ${name}`} loading="lazy" width={320} height={320} className="aspect-square w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
+                <div className="absolute bottom-3 left-3 grid h-8 w-8 place-items-center rounded-full bg-accent text-accent-foreground">
+                  <Sparkles className="h-3.5 w-3.5" />
+                </div>
+              </div>
+              <h3 className="font-display text-lg font-bold text-navy">{name}</h3>
+              <p className="mt-1 text-sm text-primary">{role}</p>
+            </article>
           ))}
-        </Carousel>
+        </div>
       </div>
     </section>
   );
 }
 
 const docentes = [
-  { n: "Prof.ª Vanessa Rezende", m: "POO II · Engenharia de Software", s: ["Java", "POO", "Arquitetura de Software", "Modelagem Ágil"], p: "women/65", d: true },
-  { n: "Prof. Carlos Eduardo", m: "Algoritmos e Estrutura de Dados", s: ["C", "Algoritmos", "Complexidade"], p: "men/60" },
-  { n: "Prof.ª Helena Prado", m: "Banco de Dados", s: ["SQL", "Modelagem ER", "PostgreSQL"], p: "women/79" },
-  { n: "Prof. Roberto Moura", m: "Sistemas Operacionais", s: ["Linux", "Concorrência", "Shell"], p: "men/85" },
+  { n: "Vanessa Rezende", m: "Programação Orientada a Objetos II", s: ["Java", "POO", "Arquitetura"], p: "https://i.pravatar.cc/240?img=49", d: true },
+  { n: "Carlos Eduardo", m: "Algoritmos e Estrutura de Dados", s: ["Algoritmos", "C++", "Lógica"], p: "https://i.pravatar.cc/240?img=53" },
+  { n: "Helena Prado", m: "Banco de Dados I", s: ["SQL", "Modelagem", "Postgres"], p: "https://i.pravatar.cc/240?img=45" },
+  { n: "Roberto Moura", m: "Sistemas Operacionais", s: ["Linux", "Redes", "Processos"], p: "https://i.pravatar.cc/240?img=60" },
 ];
 
 function Docentes() {
   return (
-    <section id="docentes" className="mx-auto max-w-6xl px-6 py-24">
-      <SectionTitle eyebrow="Docentes" title="Corpo Docente" />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <section id="docentes" className="mx-auto max-w-7xl px-6 py-24">
+      <div className="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+        <div>
+          <p className="flex items-center gap-2 font-display text-sm font-extrabold uppercase tracking-[.18em] text-accent">
+            <span className="inline-block h-0.5 w-8 bg-accent" />
+            Corpo docente
+          </p>
+          <h2 className="mt-5 font-display text-4xl font-extrabold leading-[.98] tracking-tight text-navy sm:text-5xl">
+            Quem nos ajuda a<br /><span className="text-accent">compilar.</span>
+          </h2>
+        </div>
+        <p className="max-w-xs text-sm leading-6 text-navy/55">
+          Mentoria, provocação e aquele olhar que encontra o bug antes da gente.
+        </p>
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {docentes.map((d) => (
           <Reveal key={d.n}>
-            <div className={`h-full overflow-hidden rounded-2xl border bg-card shadow-sm transition-all hover:-translate-y-1 hover:shadow-md ${d.d ? "border-accent" : "border-border"}`}>
+            <article className={`h-full rounded-3xl border bg-card p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md ${d.d ? "border-accent/60" : "border-border/80"}`}>
               <div className="relative">
-                <img src={`https://randomuser.me/api/portraits/${d.p}.jpg`} alt={d.n} loading="lazy" width={400} height={300} className="aspect-[4/3] w-full object-cover" />
-                {d.d && <span className="absolute top-3 left-3 rounded-full bg-accent px-3 py-1 font-display text-xs font-bold text-accent-foreground">Destaque</span>}
+                <img src={d.p} alt={`Professor ${d.n}`} loading="lazy" width={400} height={350} className="aspect-[1.15] w-full rounded-2xl object-cover object-top" />
+                {d.d && <span className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 font-display text-[10px] font-bold uppercase tracking-wider text-accent-foreground">Destaque</span>}
               </div>
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-navy">{d.n}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{d.m}</p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {d.s.map((s, i) => (
-                    <span key={s} className={`rounded-md px-2 py-0.5 text-xs font-semibold ${i % 2 ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"}`}>{s}</span>
-                  ))}
-                </div>
+              <h3 className="mt-5 font-display text-xl font-bold text-navy">{d.n}</h3>
+              <p className="mt-2 text-sm font-semibold text-primary">{d.m}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {d.s.map((s) => (
+                  <span key={s} className="rounded-md bg-background px-2 py-1 text-[11px] font-semibold text-navy/60">{s}</span>
+                ))}
               </div>
-            </div>
+            </article>
           </Reveal>
         ))}
       </div>
