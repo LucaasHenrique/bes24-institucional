@@ -5,10 +5,9 @@ import {
   ChevronLeft, ChevronRight, ChevronsDown, GraduationCap, Code2, Database, Cpu,
   ClipboardList, Network, Layers, Github, Instagram, Mail, CheckCircle2, Clock, Menu, X, Sparkles,
 } from "lucide-react";
-import hero from "@/assets/hero.jpg";
-import b1 from "@/assets/block1.jpg";
-import b2 from "@/assets/block2.jpg";
-import b3 from "@/assets/block3.jpg";
+import fotoDaTurma from "@/assets/turma/foto-da-turma.jpg";
+import fotoFlisol from "@/assets/trajetoria/flisol.jpg";
+import desafioPoo from "@/assets/trajetoria/desafio-poo-ii.png";
 import SplitText from "@/components/react-bits/SplitText";
 import BlurText from "@/components/react-bits/BlurText";
 import CountUp from "@/components/react-bits/CountUp";
@@ -17,7 +16,8 @@ import ScrollVelocity from "@/components/react-bits/ScrollVelocity";
 import SpotlightCard from "@/components/react-bits/SpotlightCard";
 import Magnet from "@/components/react-bits/Magnet";
 import ClickSpark from "@/components/react-bits/ClickSpark";
-import DecryptedText from "@/components/react-bits/DecryptedText";
+import { alunos } from "@/data/alunos";
+import { docentes } from "@/data/docentes";
 import { ClientParticles, Reveal, ScrollProgress, Stagger, StaggerItem } from "@/components/motion-kit";
 
 const EASE = [0.2, 0.7, 0.2, 1] as const;
@@ -127,7 +127,7 @@ function Hero() {
 
   return (
     <section ref={ref} id="inicio" className="relative flex min-h-[100svh] items-center justify-center overflow-hidden">
-      <motion.img src={hero} alt="Turma BES 2024" width={1920} height={1088} style={{ y: bgY, scale: bgScale }} className="absolute inset-0 h-full w-full object-cover" />
+      <motion.img src={fotoDaTurma} alt="Turma BES 2024 reunida no laboratório de informática" width={1600} height={1201} style={{ y: bgY, scale: bgScale }} className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-hero-overlay" />
       <div className="pointer-events-none absolute inset-0">
         <ClientParticles particleColors={["#ffffff"]} particleCount={140} particleSpread={10} speed={0.06} particleBaseSize={80} moveParticlesOnHover={false} alphaParticles />
@@ -198,9 +198,9 @@ function Hero() {
 }
 
 const story = [
-  { img: b1, title: "A Gênese e o Batismo de Fogo", date: "Agosto de 2024", text: "Iniciamos nossa jornada acadêmica em agosto de 2024 sob circunstâncias que testariam a resiliência de qualquer engenheiro. Entre greves, semanas atípicas sem aulas e um quadro docente em formação, aprendemos desde o primeiro dia a principal competência da nossa profissão: resolução de problemas no caos. Saímos ilesos e oficialmente condecorados como 'Sobreviventes do Primeiro Semestre'." },
-  { img: b2, title: "Organização do FLISoL: Teoria vs. Prática", date: "Evento", text: "Com espírito empreendedor e nenhuma experiência prévia em gestão de eventos, assumimos a organização do FLISoL. Como era de se esperar, o cronograma foi um exercício empírico de teoria do caos mitigada. Contudo, graças ao suporte salvador dos veteranos e à integridade estrutural dos cachorros-quentes servidos, o evento consolidou-se como um marco vitorioso na nossa história." },
-  { img: b3, title: "O Desafio de POO II e a Epopeia dos 41 Commits", date: "Domingo, 23:59", text: "Na disciplina de POO II, sob a tutela da Prof.ª Vanessa Rezende, fomos desafiados a arquitetar um sistema segmentado em camadas: Frontend, Serviços, API e Banco de Dados. A separação de responsabilidades foi impecável no papel, mas a comunicação entre times foi um teste de nervos. O desfecho memorável ocorreu no domingo às 23:59: um pull request histórico contendo 41 commits simultâneos que milagrosamente compilaram em produção." },
+  { img: fotoDaTurma, fit: "contain" as const, title: "A Gênese e o Batismo de Fogo", date: "Agosto de 2024", text: "Iniciamos nossa jornada acadêmica em agosto de 2024 sob circunstâncias que testariam a resiliência de qualquer engenheiro. Entre greves, semanas atípicas sem aulas e um quadro docente em formação, aprendemos desde o primeiro dia a principal competência da nossa profissão: resolução de problemas no caos. Saímos ilesos e oficialmente condecorados como 'Sobreviventes do Primeiro Semestre'." },
+  { img: fotoFlisol, fit: "contain" as const, title: "Organização do FLISoL: Teoria vs. Prática", date: "Evento", text: "Com espírito empreendedor e nenhuma experiência prévia em gestão de eventos, assumimos a organização do FLISoL. Como era de se esperar, o cronograma foi um exercício empírico de teoria do caos mitigada. Contudo, graças ao suporte salvador dos veteranos e à integridade estrutural dos cachorros-quentes servidos, o evento consolidou-se como um marco vitorioso na nossa história." },
+  { img: desafioPoo, fit: "contain" as const, title: "O Desafio de POO II e a Epopeia dos 41 Commits", date: "Domingo, 23:59", text: "Na disciplina de POO II, sob a tutela da Prof.ª Vanessa Rezende, fomos desafiados a arquitetar um sistema segmentado em camadas: Frontend, Serviços, API e Banco de Dados. A separação de responsabilidades foi impecável no papel, mas a comunicação entre times foi um teste de nervos. O desfecho memorável ocorreu no domingo às 23:59: um pull request histórico contendo 41 commits simultâneos que milagrosamente compilaram em produção." },
 ];
 
 function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
@@ -212,13 +212,13 @@ function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
   );
 }
 
-function ParallaxImage({ src, alt }: { src: string; alt: string }) {
+function ParallaxImage({ src, alt, fit = "cover" }: { src: string; alt: string; fit?: "cover" | "contain" }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
   return (
-    <div ref={ref} className="aspect-[4/3] w-full overflow-hidden">
-      <motion.img src={src} alt={alt} loading="lazy" width={1024} height={1024} style={{ y, scale: 1.2 }} className="h-full w-full object-cover" />
+    <div ref={ref} className={`aspect-[4/3] w-full overflow-hidden ${fit === "contain" ? "bg-black" : ""}`}>
+      <motion.img src={src} alt={alt} loading="lazy" width={1024} height={1024} style={fit === "cover" ? { y, scale: 1.2 } : {}} className={`h-full w-full ${fit === "contain" ? "object-contain" : "object-cover"}`} />
     </div>
   );
 }
@@ -244,7 +244,7 @@ function Trajetoria() {
         {story.map((s, i) => (
           <div key={s.title} className={`grid items-center gap-10 md:grid-cols-2 ${i % 2 ? "md:[&>*:first-child]:order-2" : ""}`}>
             <Reveal direction={i % 2 ? "right" : "left"} className="overflow-hidden rounded-2xl shadow-md">
-              <ParallaxImage src={s.img} alt={s.title} />
+              <ParallaxImage src={s.img} alt={s.title} fit={s.fit ?? "cover"} />
             </Reveal>
             <Reveal direction={i % 2 ? "left" : "right"} delay={0.15}>
               <span className="font-display text-sm font-bold text-accent">0{i + 1} — {s.date}</span>
@@ -274,17 +274,6 @@ function Carousel({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
-const alunos = [
-  ["Lucas Andrade", "Frontend Enthusiast", "https://i.pravatar.cc/160?img=11"],
-  ["Beatriz Lima", "Backend Warrior", "https://i.pravatar.cc/160?img=47"],
-  ["Gabriel Siqueira", "QA & Café", "https://i.pravatar.cc/160?img=12"],
-  ["Matheus Rocha", "Cloud Explorer", "https://i.pravatar.cc/160?img=14"],
-  ["Larissa Fernandes", "UX & Research", "https://i.pravatar.cc/160?img=44"],
-  ["Rafael Martins", "Database Tamer", "https://i.pravatar.cc/160?img=59"],
-  ["Júlia Castro", "Product Mindset", "https://i.pravatar.cc/160?img=32"],
-  ["Henrique Alves", "DevOps Rookie", "https://i.pravatar.cc/160?img=68"],
-];
 
 function Alunos() {
   const [studentIndex, setStudentIndex] = useState(0);
@@ -320,7 +309,7 @@ function Alunos() {
         </div>
         <div className="relative mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <AnimatePresence mode="popLayout" initial={false}>
-            {visibleStudents.map(([name, role, image], i) => (
+            {visibleStudents.map(({ name, image }, i) => (
               <motion.article
                 key={name}
                 layout
@@ -339,9 +328,6 @@ function Alunos() {
                   </motion.div>
                 </div>
                 <h3 className="font-display text-lg font-bold text-navy">{name}</h3>
-                <p className="mt-1 text-sm text-primary">
-                  <DecryptedText text={role ?? ""} animateOn="hover" speed={40} maxIterations={8} encryptedClassName="text-accent" />
-                </p>
               </motion.article>
             ))}
           </AnimatePresence>
@@ -350,16 +336,6 @@ function Alunos() {
     </section>
   );
 }
-
-const docentes = [
-  { n: "Vanessa Rezende", m: "Programação Orientada a Objetos II", s: ["Java", "POO", "Arquitetura"], p: "https://i.pravatar.cc/240?img=49", d: true },
-  { n: "Carlos Eduardo", m: "Algoritmos e Estrutura de Dados", s: ["Algoritmos", "C++", "Lógica"], p: "https://i.pravatar.cc/240?img=53" },
-  { n: "Helena Prado", m: "Banco de Dados I", s: ["SQL", "Modelagem", "Postgres"], p: "https://i.pravatar.cc/240?img=45" },
-  { n: "Roberto Moura", m: "Sistemas Operacionais", s: ["Linux", "Redes", "Processos"], p: "https://i.pravatar.cc/240?img=60" },
-];
-
-const tagsContainer = { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.35 } } };
-const tagItem = { hidden: { opacity: 0, scale: 0.5 }, show: { opacity: 1, scale: 1, transition: { type: "spring" as const, stiffness: 420, damping: 18 } } };
 
 function Docentes() {
   return (
@@ -381,31 +357,16 @@ function Docentes() {
         </Reveal>
       </div>
       <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" stagger={0.12}>
-        {docentes.map((d) => (
-          <StaggerItem key={d.n} className="h-full" whileHover={{ y: -6 }}>
+        {docentes.map(({ name, image }) => (
+          <StaggerItem key={name} className="h-full" whileHover={{ y: -6 }}>
             <SpotlightCard
               spotlightColor="rgba(220, 60, 50, 0.14)"
-              className={`h-full rounded-3xl border bg-card p-5 shadow-sm transition-shadow hover:shadow-md ${d.d ? "border-accent/60" : "border-border/80"}`}
+              className="h-full rounded-3xl border border-border/80 bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
             >
               <div className="relative">
-                <img src={d.p} alt={`Professor ${d.n}`} loading="lazy" width={400} height={350} className="aspect-[1.15] w-full rounded-2xl object-cover object-top" />
-                {d.d && (
-                  <motion.span
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 font-display text-[10px] font-bold uppercase tracking-wider text-accent-foreground"
-                  >
-                    Destaque
-                  </motion.span>
-                )}
+                <img src={image} alt={`Foto de ${name}`} loading="lazy" width={400} height={350} className="aspect-[1.15] w-full rounded-2xl object-cover object-top" />
               </div>
-              <h3 className="mt-5 font-display text-xl font-bold text-navy">{d.n}</h3>
-              <p className="mt-2 text-sm font-semibold text-primary">{d.m}</p>
-              <motion.div variants={tagsContainer} className="mt-4 flex flex-wrap gap-2">
-                {d.s.map((s) => (
-                  <motion.span key={s} variants={tagItem} whileHover={{ y: -2, scale: 1.08 }} className="rounded-md bg-background px-2 py-1 text-[11px] font-semibold text-navy/60">{s}</motion.span>
-                ))}
-              </motion.div>
+              <h3 className="mt-5 font-display text-xl font-bold text-navy">{name}</h3>
             </SpotlightCard>
           </StaggerItem>
         ))}
@@ -415,12 +376,12 @@ function Docentes() {
 }
 
 const disciplinas = [
-  { n: "Programação Orientada a Objetos II", p: "Prof.ª Vanessa Rezende", i: Layers, done: false },
-  { n: "Estrutura de Dados", p: "Prof. Carlos Eduardo", i: Network, done: true },
-  { n: "Banco de Dados I", p: "Prof.ª Helena Prado", i: Database, done: false },
-  { n: "Engenharia de Requisitos", p: "Prof.ª Vanessa Rezende", i: ClipboardList, done: true },
-  { n: "Sistemas Operacionais", p: "Prof. Roberto Moura", i: Cpu, done: false },
-  { n: "Algoritmos e Programação", p: "Prof. Carlos Eduardo", i: Code2, done: true },
+  { n: "Arquitetura de Software", p: "Prof. Alan Barreto", i: Layers, done: false },
+  { n: "Cultura, Sociedade e Tecnologia", p: "Prof. Keny Goes", i: Network, done: true },
+  { n: "Fundamentos de Redes de Computadores", p: "Prof. Alan Barreto", i: Database, done: false },
+  { n: "Gerência de Projetos", p: "Prof.ª Jacqueline Rosario", i: ClipboardList, done: false },
+  { n: "Processos de Desenvolvimento de Software", p: "Prof.ª Vanessa Rezende", i: Cpu, done: false },
+  { n: "Robótica Móvel", p: "Prof. Keny Goes", i: Code2, done: false },
 ];
 
 function Grade() {
@@ -461,7 +422,7 @@ function Footer() {
       <Stagger className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-3" stagger={0.15}>
         <StaggerItem>
           <p className="font-display text-2xl font-extrabold">BES <span className="text-accent">2024</span></p>
-          <p className="mt-3 text-sm opacity-75">Comissão organizadora: Lucas Andrade, Beatriz Lima e Larissa Fernandes.</p>
+          <p className="mt-3 text-sm opacity-75">Comissão organizadora: Lucas Henrique, Nicolas Sousa, Ikki Carvalho e Vitoria Mota.</p>
         </StaggerItem>
         <StaggerItem>
           <h4 className="font-display text-sm font-bold uppercase tracking-widest text-accent">Links rápidos</h4>
