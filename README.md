@@ -22,3 +22,26 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Deploy with Docker
+
+Build and start the production server with Docker Compose:
+
+```sh
+docker compose up -d --build
+```
+
+The application is available locally at `http://127.0.0.1:3100`, intended to be
+used behind a reverse proxy such as Nginx. To use another host port, set
+`APP_PORT`:
+
+```sh
+APP_PORT=8080 docker compose up -d --build
+```
+
+View logs or stop the application:
+
+```sh
+docker compose logs -f app
+docker compose down
+```
