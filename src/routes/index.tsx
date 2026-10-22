@@ -3,7 +3,7 @@ import { useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, MotionConfig, motion, useScroll, useTransform } from "motion/react";
 import {
   ChevronLeft, ChevronRight, ChevronsDown, GraduationCap, Code2, Database, Cpu,
-  ClipboardList, Network, Layers, Github, Instagram, Mail, CheckCircle2, Clock, Menu, X, Sparkles,
+  ClipboardList, Network, Layers, Github, Instagram, Mail, CheckCircle2, Clock, Menu, X,
 } from "lucide-react";
 import fotoDaTurma from "@/assets/turma/foto-da-turma.jpg";
 import fotoFlisol from "@/assets/trajetoria/flisol.jpg";
@@ -322,10 +322,7 @@ function Alunos() {
                 className="group rounded-3xl border border-border/80 bg-background p-5 transition-[border-color,box-shadow] duration-300 hover:border-primary/30 hover:shadow-xl"
               >
                 <div className="relative mb-5 overflow-hidden rounded-2xl">
-                  <img src={image} alt={`Foto de ${name}`} loading="lazy" width={320} height={320} className="aspect-square w-full object-cover grayscale transition duration-500 group-hover:scale-105 group-hover:grayscale-0" />
-                  <motion.div whileHover={{ rotate: 180, scale: 1.2 }} transition={{ type: "spring", stiffness: 300 }} className="absolute bottom-3 left-3 grid h-8 w-8 place-items-center rounded-full bg-accent text-accent-foreground">
-                    <Sparkles className="h-3.5 w-3.5" />
-                  </motion.div>
+                  <img src={image} alt={`Foto de ${name}`} loading="lazy" width={320} height={320} className="aspect-square w-full object-cover transition duration-500 group-hover:scale-105" />
                 </div>
                 <h3 className="font-display text-lg font-bold text-navy">{name}</h3>
               </motion.article>
@@ -422,7 +419,7 @@ function Footer() {
       <Stagger className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-3" stagger={0.15}>
         <StaggerItem>
           <p className="font-display text-2xl font-extrabold">BES <span className="text-accent">2024</span></p>
-          <p className="mt-3 text-sm opacity-75">Comissão organizadora: Lucas Henrique, Nicolas Sousa, Ikki Carvalho e Vitoria Mota.</p>
+          <p className="mt-3 text-sm opacity-75">Comissão organizadora: Lucas Henrique, José Neto, Mauricio Lucas, Nicolas Sousa, Ikki Carvalho e Vitoria Mota.</p>
         </StaggerItem>
         <StaggerItem>
           <h4 className="font-display text-sm font-bold uppercase tracking-widest text-accent">Links rápidos</h4>
@@ -437,10 +434,14 @@ function Footer() {
         <StaggerItem>
           <h4 className="font-display text-sm font-bold uppercase tracking-widest text-accent">Conecte-se</h4>
           <div className="mt-4 flex gap-3">
-            {[[Github, "https://github.com"], [Instagram, "https://instagram.com"], [Mail, "mailto:bes2024@exemplo.com"]].map(([I, h], k) => {
+            {[
+              [Github, "https://github.com/LucaasHenrique/bes24-institucional", "Repositório no GitHub"],
+              [Instagram, "https://www.instagram.com/eng.software_pbs2024/", "Instagram da turma"],
+              [Mail, "mailto:bes2024@exemplo.com", "Enviar e-mail"],
+            ].map(([I, h, label], k) => {
               const Ic = I as typeof Github;
               return (
-                <motion.a key={k} href={h as string} whileHover={{ y: -5, rotate: 8, scale: 1.1 }} whileTap={{ scale: 0.9 }} transition={{ type: "spring", stiffness: 400, damping: 15 }} className="rounded-lg border border-navy-foreground/20 p-2.5 transition-colors hover:border-accent hover:text-accent">
+                <motion.a key={k} href={h as string} aria-label={label as string} target="_blank" rel="noreferrer" whileHover={{ y: -5, rotate: 8, scale: 1.1 }} whileTap={{ scale: 0.9 }} transition={{ type: "spring", stiffness: 400, damping: 15 }} className="rounded-lg border border-navy-foreground/20 p-2.5 transition-colors hover:border-accent hover:text-accent">
                   <Ic className="h-5 w-5" />
                 </motion.a>
               );
